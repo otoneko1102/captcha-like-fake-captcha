@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PROTECTED</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body style="display: block; text-align: center;">
+    <h1>ようこそ！</h1>
+    <p id="status">Loading...</p>
+
+    <div style="display: block">
+      <div class="content-wrapper">
+        <label for="token">Current Token</label>
+        <p id="token">Unknown</p>
+      </div>
+      <br /><br />
+      <div id="content" class="content-wrapper">
+        <p>Loading...</p>
+      </div>
+    </div>
+    <br /><br />
+
+    <button id="secret-button" onclick="secret()" disabled>秘密ファイルを閲覧する</button>
+    <br /><br />
+    <video id="secret" controls width="500" hidden>
+      <source src="./video/secret.mp4" type="video/mp4" />
+      <p>現在のブラウザでは表示できません</p>
+    </video>
+
+    <br /><br />
+    <button onclick="callLogout()">ログアウト</button>
+
+    <script src="protected.js"></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Local files
+.env
+
+# Private files
+private/
+public/video/secret.mp4
+
+# Generated files
+public/img/captcha/
+
+# Database files
+*.db

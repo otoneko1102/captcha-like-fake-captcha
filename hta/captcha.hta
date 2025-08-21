@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>CAPTCHA</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script language="JavaScript">
+      // JScript (ES6以前)
+
+      // パラメーター取得関数
+      function getParam(name) {
+        if (location.search.length < 2) return null;
+        var query = location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          if (decodeURIComponent(pair[0]) == name) {
+            return decodeURIComponent(pair[1]);
+          }
+        }
+        return null;
+      }
+
+      window.onload = function () {
+        // 実行時にコマンドプロンプトを起動し無意味なログを表示させて、ユーザーを怖がらせましょう！
+        var command = 'cmd /c "@echo Main control server accessed... & @echo ... & @echo Launching interface... && timeout /t 1 /nobreak > nul"';
+        var shell = new ActiveXObject("WScript.Shell");
+        shell.Run(command, 1, false);
+
+        var token = getParam("token");
+        var domain = getParam("domain");
+        var captchaImg = document.getElementById("captchaImage");
+
+        if (token && domain) {
+          captchaImg.src = "https://" + domain + "/img/captcha/" + token + ".png";
+        } else {
+          document.getElementById("captchaContainer").innerText = "画像の読み込みに失敗しました。";
+        }
+      };
+
+      function submit() {
+        var token = getParam("token");
+        var domain = getParam("domain");
+        if (!token || !domain) {
+          alert("トークンまたはドメイン情報が見つかりません。");
+          return;
+        }
+
+        var answer = document.getElementById("answerInput").value;
+
+        var xhr = new ActiveXObject("MSXML2.XMLHTTP");
+        var url = "https://" + domain + "/verify";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              alert("認証成功！保護ページを開きます。");
+              var pUrl = "https://" + domain + "/protected?token=" + token;
+              new ActiveXObject("WScript.Shell").Run(pUrl);
+              window.close();
+            } else {
+              alert("認証に失敗しました。(" + xhr.status + " " + xhr.statusText + ")");
+            }
+          }
+        };
+
+        var data = '{"token":"' + token + '","answer":"' + answer + '"}';
+        xhr.send(data);
+      }
+    </script>
+  </head>
+  <body style="text-align: center; font-family: sans-serif">
+<h3>画像に表示されている文字を入力してください</h3>
+    <div id="captchaContainer" style="margin: 20px 0;">
+      <img id="captchaImage" alt="CAPTCHA Image" style="width: 60%; height: auto;" />
+    </div>
+    <input type="text" id="answerInput" />
+    <button onclick="submit()">送信</button>
+  </body>
+</html>

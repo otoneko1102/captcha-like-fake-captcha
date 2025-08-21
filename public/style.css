@@ -1,0 +1,146 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: "Segoe UI", "Meiryo", sans-serif;
+  background-color: #f0f2f5;
+  color: #333333;
+}
+
+/* --- メイン --- */
+.container {
+  background-color: #ffffff;
+  padding: 25px 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 450px;
+}
+
+h1 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 0.9em;
+  color: #666666;
+  margin-bottom: 25px;
+}
+
+/* --- reCaptcha風 --- */
+.captcha-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+}
+
+#captcha-box {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.captcha-logo {
+  text-align: center;
+}
+.captcha-logo img {
+  width: 32px;
+  height: 32px;
+}
+.captcha-logo span {
+  display: block;
+  font-size: 0.6em;
+  color: #888888;
+}
+
+/* --- チェックボックス --- */
+.checkbox {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border: 2px solid #c1c1c1;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.2s ease-in-out;
+}
+#captcha-box:hover .checkbox {
+  border-color: #a1a1a1;
+}
+.checkbox.checked {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.checkmark {
+  font-size: 24px;
+  color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+.checkbox.checked .checkmark {
+  opacity: 1;
+}
+
+/* --- メッセージ --- */
+.label {
+  margin-left: 12px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+#message {
+  margin-top: 20px;
+  font-weight: bold;
+  min-height: 20px;
+  color: #2c7a2c;
+}
+
+/* --- 警告 --- */
+.warn-block {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ffc107;
+  background-color: #fff3cd;
+  border-radius: 4px;
+  color: #856404;
+}
+.warn-icon {
+  font-size: 20px;
+  margin-right: 15px;
+  margin-top: -2px;
+}
+.warn-text p {
+  margin: 0;
+  font-size: 0.85em;
+  text-align: left;
+  color: #856404;
+}
+.warn-text code {
+  background-color: rgba(0, 0, 0, 0.08);
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* --- PROTECTED --- */
+.content-wrapper {
+  padding: 20px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  width: 80vw;
+}
