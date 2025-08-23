@@ -1,6 +1,6 @@
 # Captcha Like Fake Captcha
 
-reCaptchaに扮した偽reCaptcha風のCaptchaのサンプルです。  
+ReCAPTCHAに扮した偽ReCAPTCHA風のCaptchaのサンプルです。  
 HTML Applicationとmshtaコマンドを使用しているので、アクセスするユーザーがWindows以外ではおそらく動作しません。  
 このプロジェクトを配置するOSはLinuxなど、Windows以外でも問題ありません。  
 mshtaコマンドがWindowsセキュリティ(Windows Defender)にブロックされることがあるので、アクセスするユーザーはスキャン対象から `C:\Windows\System32\mshta.exe` を除外してください。  
@@ -19,3 +19,8 @@ mshtaコマンドがWindowsセキュリティ(Windows Defender)にブロック�
 npm run build
 npm run start
 ```
+
+## Test
+
+https://hta.oto.im/
+
