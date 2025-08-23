@@ -39,9 +39,10 @@ const checkTokenSchema = z.object({
   token: z.string().uuid(),
 });
 
+// IP
 app.set("trust proxy", 1);
 
-// レートリミッターをセットアップ
+// レートリミット
 const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1h
   max: 1000, // 1000 access/IP
@@ -49,22 +50,35 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-((): void => {
+function setup(): void {
   const libDir: string = "./lib";
   const captchaDir: string = "./public/img/captcha";
-  if (!fs.existsSync(libDir)) fs.mkdirSync(libDir);
-  if (!fs.existsSync(captchaDir)) fs.mkdirSync(captchaDir, { recursive: true });
-})();
+  if (!fs.existsSync(libDir)) {
+    fs.mkdirSync(libDir);
+  }
+  if (!fs.existsSync(captchaDir)) {
+    fs.mkdirSync(captchaDir, { recursive: true });
+  }
+}
+
+setup();
+
+// データベース
 
 const db: sqlite3.Database = new sqlite3.Database("./lib/tokens.db", (err) => {
-  if (err) console.error(err.message);
-  else console.log("Connected to the SQLite database.");
+  if (err) {
+    console.error(err.message);
+  } else {
+    console.log("Connected to the SQLite database.");
+  }
 });
 
 db.run(`CREATE TABLE IF NOT EXISTS tokens (
   token TEXT PRIMARY KEY, status TEXT NOT NULL, answer TEXT,
   ip_address TEXT, createdAt INTEGER NOT NULL
 )`);
+
+// ---
 
 function cleanupTokens(): void {
   const cutoff = Date.now() - TOKEN_LIFETIME;
@@ -104,7 +118,7 @@ app.get("/generate-token", async (req: Request, res: Response) => {
   const token: string = uuidv4();
   const createdAt: number = Date.now();
 
-  const captcha = svgCaptcha.create({
+  const captcha: svgCaptcha.CaptchaObj = svgCaptcha.create({
     size: 6, // 文字数
     ignoreChars: "0Oo1IiLl", // 除外文字
     noise: 12, // 線
@@ -124,21 +138,24 @@ app.get("/generate-token", async (req: Request, res: Response) => {
     await sharp(Buffer.from(svgData)).png().toFile(filePath);
   } catch (error) {
     console.error("Image conversion failed:", error);
-    return res.status(500).json({ error: "Image generation failed" });
+    return res
+      .status(500)
+      .json({ success: false, error: "Image generation failed" });
   }
 
   db.run(
     `INSERT INTO tokens (token, status, answer, createdAt) VALUES (?, ?, ?, ?)`,
     [token, "pending", answer, createdAt],
     (err) => {
-      if (err) return res.status(500).json({ error: "DB Error" });
-      res.json({ token });
+      if (err)
+        return res.status(500).json({ success: false, error: "DB Error" });
+      res.json({ success: true, token });
     }
   );
 });
 
 app.get("/hta/captcha.hta", (req: Request, res: Response) => {
-  res.setHeader("Content-Type", "application/hta");
+  res.setHeader("Content-Type", "application/hta"); // HTML Application
   res.sendFile(path.join(__dirname, "..", "hta", "captcha.hta"));
 });
 
