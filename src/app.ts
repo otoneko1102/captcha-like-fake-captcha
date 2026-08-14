@@ -99,7 +99,10 @@ app.post(
     if (!row) return c.json({ success: false }, 401);
 
     if (row.status === "verified" && row.ip_address === currentIp) {
-      return c.json({ success: true, expiresAt: row.createdAt + TOKEN_LIFETIME });
+      return c.json({
+        success: true,
+        expiresAt: row.createdAt + TOKEN_LIFETIME,
+      });
     }
 
     return c.json({ success: false }, 401);

@@ -1,0 +1,7 @@
+dist/
+hta/
+node_modules/
+private/
+
+*.json
+*.md

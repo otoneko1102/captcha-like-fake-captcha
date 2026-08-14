@@ -1,1 +1,3 @@
-DELETE FROM tokens WHERE createdAt < ?
+DELETE FROM tokens
+WHERE
+  createdAt < ?

@@ -69,7 +69,7 @@ async function checkAuth() {
       content.innerHTML =
         '<p id="timer" style="color:green;"> calculating... </p>';
       secretBtn.disabled = false;
-        startTimer(data.expiresAt);
+      startTimer(data.expiresAt);
     } else {
       throw new Error("Auth failed");
     }
@@ -86,7 +86,7 @@ function secret() {
   const secretBtn = document.getElementById("secret-button");
   const secretEl = document.getElementById("secret");
   secretBtn.disabled = true;
-  secretBtn.textContent = "It's a Rick Roll time!"
+  secretBtn.textContent = "It's a Rick Roll time!";
   secretEl.hidden = false;
   secretEl.play();
 }

@@ -1,1 +1,6 @@
-SELECT * FROM tokens WHERE token = ?
+SELECT
+  *
+FROM
+  tokens
+WHERE
+  token = ?

@@ -1,1 +1,6 @@
-SELECT token FROM tokens WHERE createdAt < ?
+SELECT
+  token
+FROM
+  tokens
+WHERE
+  createdAt < ?
