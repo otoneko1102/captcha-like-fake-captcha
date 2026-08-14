@@ -1,5 +1,7 @@
+import fs from "fs";
+import path from "path";
 import Database from "better-sqlite3";
-import { DB_PATH } from "./config";
+import { DB_PATH, SQL_DIR } from "./config";
 
 export type TokenStatus = "pending" | "verified";
 
@@ -11,24 +13,19 @@ export interface TokenRecord {
   createdAt: number;
 }
 
+function loadSql(fileName: string): string {
+  return fs.readFileSync(path.join(SQL_DIR, fileName), "utf-8");
+}
+
 const db = new Database(DB_PATH);
 
-db.exec(`CREATE TABLE IF NOT EXISTS tokens (
-  token TEXT PRIMARY KEY, status TEXT NOT NULL, answer TEXT,
-  ip_address TEXT, createdAt INTEGER NOT NULL
-)`);
+db.exec(loadSql("create-tokens-table.sql"));
 
-const insertStmt = db.prepare(
-  `INSERT INTO tokens (token, status, answer, createdAt) VALUES (?, ?, ?, ?)`
-);
-const getStmt = db.prepare(`SELECT * FROM tokens WHERE token = ?`);
-const verifyStmt = db.prepare(
-  `UPDATE tokens SET status = ?, ip_address = ? WHERE token = ?`
-);
-const selectExpiredStmt = db.prepare(
-  `SELECT token FROM tokens WHERE createdAt < ?`
-);
-const deleteExpiredStmt = db.prepare(`DELETE FROM tokens WHERE createdAt < ?`);
+const insertStmt = db.prepare(loadSql("insert-token.sql"));
+const getStmt = db.prepare(loadSql("get-token.sql"));
+const verifyStmt = db.prepare(loadSql("verify-token.sql"));
+const selectExpiredStmt = db.prepare(loadSql("select-expired-tokens.sql"));
+const deleteExpiredStmt = db.prepare(loadSql("delete-expired-tokens.sql"));
 
 export function insertToken(
   token: string,

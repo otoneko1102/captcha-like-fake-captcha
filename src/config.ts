@@ -13,6 +13,7 @@ export const CAPTCHA_DIR: string = path.join(PUBLIC_DIR, "img", "captcha");
 export const LIB_DIR: string = path.join(ROOT_DIR, "lib");
 export const DB_PATH: string = path.join(LIB_DIR, "tokens.db");
 export const HTA_PATH: string = path.join(ROOT_DIR, "hta", "captcha.hta");
+export const SQL_DIR: string = path.join(ROOT_DIR, "sql");
 
 fs.mkdirSync(LIB_DIR, { recursive: true });
 fs.mkdirSync(CAPTCHA_DIR, { recursive: true });
